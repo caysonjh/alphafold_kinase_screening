@@ -21,12 +21,12 @@ if __name__ == "__main__":
 
     df = pd.read_csv(args.kinase_file)
 
-    for id in df['UniprotID'][:10]:
+    for id in df['UniprotID']:
         url = f"https://rest.uniprot.org/uniprotkb/{id}.fasta"
         output_file = f"fasta_files/{id}.fasta"
         get_fasta_file(url, output_file)
 
-    for fasta_file in df['UniprotID'][:10].apply(lambda x: f"fasta_files/{x}.fasta"):
+    for fasta_file in df['UniprotID'].apply(lambda x: f"fasta_files/{x}.fasta"):
         with open(fasta_file, 'a') as f: 
             with open(args.init_protein_fasta, 'r') as init_f: 
                 for line in init_f: 
