@@ -28,10 +28,16 @@ Two scripts must be run to prepare the raw AlphaFold3 output for the later analy
 #### 1. Run `generate_paeplots.sh`
 
 This script will generate the PAE plot for each of the AlphaFold3 runs using the `generate_pae.py` script in this directory. 
+```
+./generate_paeplots.sh
+```
 
 #### 2. Run `prepare_download.sh` 
 
 This script will create a new directory entitled `out_dirs` that will contain the necessary files for the later analysis scripts without the large data files, so that you could mass-download them to your machine with `sftp` if you would like. 
+```
+./prepare_download.sh
+```
 
 ## Stage 3 -- Analysis 
 
