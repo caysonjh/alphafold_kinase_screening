@@ -1,0 +1,3 @@
+[submodule "IPSAE"]
+	path = IPSAE
+	url = https://github.com/DunbrackLab/IPSAE.git
