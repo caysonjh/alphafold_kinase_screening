@@ -3,6 +3,15 @@
 ## Setup 
 
 #### 1. Clone this repository on the BYU HPC cluster and navigate to the directory.
+```
+git clone --recurse-submodules git@github.com:caysonjh/alphafold_kinase_screening.git
+```
+
+#### 2. Ensure that the required python libraries are installed
+```
+pip install -r requirements.txt
+```
+
 
 ## Stage 1 -- AlphaFold3 Screens
 
@@ -38,6 +47,13 @@ Inside the `analysis/` directory is a python script `run_full_pipeline.py` that 
 - Concatenate the scores for each run into a single `all_scores.csv` file in the `final_dirs` directory 
 - Generate standard and interactive violin plots for the score distributions
 - Generate standard and interactive viewable screen rankings based on performance across the scoring metrics
+
+
+Run the script with the `--project-root` parameter to specify the directory where your original `run_jobs.sh` was submitted. 
+```
+python run_full_pipeline.py --project-root /path/to/alphafold_project_dir
+```
+
 
 ## Stage 4 -- Download and Viewing 
 
