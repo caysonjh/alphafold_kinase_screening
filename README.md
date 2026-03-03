@@ -49,7 +49,7 @@ Inside the `analysis/` directory is a python script `run_full_pipeline.py` that 
 - Move the `.cif` model file into the directory 
 - Collect the **ipTM** score from the AlphaFold3 output 
 - Run **IPSAE** analysis using the `ipsae.py` from the included submodule 
-- Run iLIS analysis using code modified from the original iLIS module 
+- Run **iLIS** analysis using code modified from the original iLIS module 
 - Concatenate the scores for each run into a single `all_scores.csv` file in the `final_dirs` directory 
 - Generate standard and interactive violin plots for the score distributions
 - Generate standard and interactive viewable screen rankings based on performance across the scoring metrics
