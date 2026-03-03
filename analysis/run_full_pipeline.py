@@ -260,9 +260,28 @@ def main() -> None:
         logger.log("Updated iLIS in score_summary.csv files and rebuilt all_scores.csv")
 
     if not args.skip_plots:
-        run_cmd([sys.executable, str(analysis_dir / "plot_all_scores_violin.py")], args.project_root, logger, "plot violin")
         run_cmd(
-            [sys.executable, str(analysis_dir / "plot_all_scores_interactive.py")],
+            [
+                sys.executable,
+                str(analysis_dir / "plot_all_scores_violin.py"),
+                "--input",
+                str(final_dirs / "all_scores.csv"),
+                "--output",
+                str(final_dirs / "all_scores_violin.png"),
+            ],
+            args.project_root,
+            logger,
+            "plot violin",
+        )
+        run_cmd(
+            [
+                sys.executable,
+                str(analysis_dir / "plot_all_scores_interactive.py"),
+                "--input",
+                str(final_dirs / "all_scores.csv"),
+                "--output",
+                str(final_dirs / "all_scores_interactive.html"),
+            ],
             args.project_root,
             logger,
             "plot interactive",
@@ -270,7 +289,21 @@ def main() -> None:
         logger.log(f"Plots updated in {final_dirs}")
 
     if not args.skip_rankings:
-        run_cmd([sys.executable, str(analysis_dir / "rank_score_ids.py")], args.project_root, logger, "ranking")
+        run_cmd(
+            [
+                sys.executable,
+                str(analysis_dir / "rank_score_ids.py"),
+                "--input",
+                str(final_dirs / "all_scores.csv"),
+                "--output-dir",
+                str(final_dirs / "rankings"),
+                "--mapping-csv",
+                str(args.project_root / "kinases_notkl.csv"),
+            ],
+            args.project_root,
+            logger,
+            "ranking",
+        )
         logger.log(f"Rankings updated in {final_dirs / 'rankings'}")
 
     logger.log("Pipeline complete.")

@@ -1,4 +1,4 @@
-cd out_dirs
+cd output_dirs
 for dir in *; do 
 	cd $dir
 	cd "$(dirname "$(find . -name "TERMS_OF_USE.md" -type f | head -n1)")"
