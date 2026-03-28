@@ -1,10 +1,24 @@
-# Pipeline Usage
+# Kinase Screening
 
-## Setup 
+## Dependencies and Setup
+
+### AlphaFold Permissions
+
+In order to access AlphaFold3 on the BYU HPC cluster, permission must be obtained from Google to get access to AlphaFold3's parameters. 
+
+Instructions on how to get permission can be found on BYU's [AlphaFold3 Page](https://rc.byu.edu/wiki/?page=AlphaFold+3) under the section "How to Join" section. It often takes a day or two to get permissions from Google. 
+
+Once permissions have been granted from Google, you will forward their email to rcsupport@byu.edu. They will then give you permission to run `module load alphafold3/3.0.1+`. 
+
+### Sample Data
+
+To investigate the post-AlphaFold scripting and functionality, a sample dataset is located [here](https://byu.box.com/s/1llegwooxapbt2yr9b1mrary4phwfrxz). Download the entire linked folder into this cloned repository, it will be usable for the future analysis scripts.
+
+### Environment Set-Up
 
 #### 1. Clone this repository on the BYU HPC cluster and navigate to the directory.
 ```
-git clone --recurse-submodules git@github.com:caysonjh/alphafold_kinase_screening.git
+git clone --recurse-submodules https://github.com/caysonjh/alphafold_kinase_screening.git
 ```
 
 #### 2. Ensure that the required python libraries are installed
@@ -12,16 +26,36 @@ git clone --recurse-submodules git@github.com:caysonjh/alphafold_kinase_screenin
 pip install -r requirements.txt
 ```
 
+### Input File Formatting
 
-## Stage 1 -- AlphaFold3 Screens
+There are two essential files needed to run the screens:  
+- Bait Protein Fasta File -- fasta file for the protein that will be screened against  
+- Test Protein CSV File -- csv file containing each protein to be screened against the bait protein  
+    - **NOTE:** The CSV file should contain a column titled `UniprotID` that contains either the UniprotID or the protein name so that the fasta file can be retrieved from the Uniprot website via the [API](https://www.uniprot.org/help/api_retrieve_entries)
+    <br><br>
 
-#### 1. Customize script to bait protein
-Edit `run_jobs.sh` to reflect the correct fasta file for the bait protein you are screening against. Ensure that the fasta file for said bait protein is in this directory. 
+---
+---
 
-#### 2. Submit AlphaFold3 jobs
-Ensure you are on a login node on the HPC cluster, and run `./run_jobs.sh`. This will retrieve all the kinase fasta files for kinases listed in `kinase_notkl.csv`, format them according to AlphaFold input, and submit the AlphaFold jobs. The output will be stored in output directories in an `output_dirs` folder that will be created. 
+## Screening Phase
 
-## Stage 2 -- Prepping for Analysis
+Ensure that you are on a **LOGIN** node on the BYU supercomputer, the jobs will be submitted automatically via slurm.  
+
+This is the general format for running the jobs:
+
+```
+./run_jobs.sh -i path/to/test_proteins.csv -p path/to/bait_protein.fasta
+```
+Sample bait proteins are included in the `bait_proteins` directory  
+
+#### This script will: 
+- Retrieve fasta files for all the test proteins
+- Convert the fasta files into json input for AlphaFold
+- Submit the AlphaFold slurm jobs
+- Direct the AlphaFold output to `output_dirs` with a directory named after the protein's UniprotID or Name
+<br><br>
+
+## Output Formatting
 
 Two scripts must be run to prepare the raw AlphaFold3 output for the later analysis scripts. 
 
@@ -39,7 +73,7 @@ This script will create a new directory entitled `out_dirs` that will contain th
 ./prepare_download.sh
 ```
 
-## Stage 3 -- Analysis 
+## Analysis and Figure Generation
 
 #### 1. Run `run_full_pipeline.py`
 
@@ -49,18 +83,43 @@ Inside the `analysis/` directory is a python script `run_full_pipeline.py` that 
 - Move the `.cif` model file into the directory 
 - Collect the **ipTM** score from the AlphaFold3 output 
 - Run **IPSAE** analysis using the `ipsae.py` from the included submodule 
-- Run **iLIS** analysis using code modified from the original iLIS module 
+- Run **iLIS** and **LIS** analysis using code modified from the original iLIS module 
 - Concatenate the scores for each run into a single `all_scores.csv` file in the `final_dirs` directory 
-- Generate standard and interactive violin plots for the score distributions
-- Generate standard and interactive viewable screen rankings based on performance across the scoring metrics
-
 
 Run the script with the `--project-root` parameter to specify the directory where your original `run_jobs.sh` was submitted. 
 ```
 python run_full_pipeline.py --project-root /path/to/alphafold_project_dir
 ```
 
+The output from the pipeline will include interactive html diagrams including: 
+- `final_dirs/rankings/ranking_report.html` -- This file will display the sorted Top 30 AlphaFold scans using a composite score based on ipTM, IPSAE, LIS, and iLIS.
+- `final_dirs/all_scores_interactive.html` -- This file shows the violin plots and scatter matrix (comparing whether the high scores for each metric also correlate to high scores on the other ones) for each of ipTM, IPSAE, LIS, and iLIS.
 
-## Stage 4 -- Download and Viewing 
+#### These html files can be opened in any browser for visualization, and can be downloaded from the supercomputer using `scp` or `sftp`
 
-Any interesting screens can be downloaded to local machine for viewing in PyMOL or ChimeraX, or any further analysis. 
+You will also find static figures generated in the following files: 
+- `final_dirs/rankings/ranking_report.pdf`
+- `final_dirs/all_scores_violin.png`
+
+There will be csv files that can be used for further, more specific analysis: 
+- `final_dirs/rankings/all_scores_ranked.csv`
+- `final_dirs/rankings/top_iLIS.csv` -- Top 30 for iLIS 
+- `final_dirs/rankings/top_IPSAE.csv` -- Top 30 for IPSAE
+- `final_dirs/rankings/top_ipTM.csv` -- Top 30 for ipTM
+- `final_dirs/rankings/top_LIS.csv` -- Top 30 for LIS
+- `final_dirs/rankings/top_overall.csv` -- Top 30 overall
+- `final_dirs/{your_protein}_all_scores.csv`
+
+
+## Visualization
+
+#### If the steps up to this point were done on the supercomputer, you will need to download the files of interest using `scp` or `sftp`
+
+#### If the steps were done on your local machine with a sample dataset, that is not neccessary
+
+To view the `.cif` models that are found within the AlphaFold output directories, you will need a molecular visualization software such as [ChimeraX](https://www.rbvi.ucsf.edu/chimerax/download.html). From there you can identify the interacting residues, view the interaction structure, and more. 
+
+For more information on using ChimeraX, see these [tutorials](https://www.rbvi.ucsf.edu/chimerax/download.html)
+
+---
+---
