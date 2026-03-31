@@ -27,32 +27,32 @@ while getopts "i:p:" opt; do
 done
 
 # Make fasta file directory if doesn't exist
-if [ ! -d "fasta_files" ]; then
-  mkdir fasta_files
+if [ ! -d "FASTA_FILES" ]; then
+  mkdir FASTA_FILES
 fi
 
 # Get the fasta files for each of the testing proteins
-python get_fasta_files.py --kinase_file $input --init_protein_fasta $protein
+python get_fasta_files_from_uniprot.py --kinase_file $input --init_protein_fasta $protein
 
 # Load AlphaFold module
 module load alphafold3/3.0.1+
 
 # Make directories if needed
-if [ ! -d "json_files" ]; then
-  mkdir json_files
+if [ ! -d "JSON_FILES" ]; then
+  mkdir JSON_FILES
 fi
-if [ ! -d "output_dirs" ]; then
-  mkdir output_dirs
+if [ ! -d "OUTPUT_DIRS" ]; then
+  mkdir OUTPUT_DIRS
 fi
 
 # For each of the fasta files that were downloaded, submit an AlphaFold job
-for fasta_file in fasta_files/*; do
+for fasta_file in FASTA_FILES/*; do
   if [ -f "$fasta_file" ]; then
     echo $fasta_file
     base_name="$(basename "$fasta_file")"
     echo $base_name
-    mkdir output_dirs/"${base_name%.*}"
-    f2j.py "$fasta_file" json_files/"${base_name%.*}".json
-    alphafold3_pipeline.sh json_files/"${base_name%.*}".json output_dirs/"${base_name%.*}"
+    mkdir OUTPUT_DIRS/"${base_name%.*}"
+    f2j.py "$fasta_file" JSON_FILES/"${base_name%.*}".json
+    alphafold3_pipeline.sh JSON_FILES/"${base_name%.*}".json OUTPUT_DIRS/"${base_name%.*}"
   fi
 done
