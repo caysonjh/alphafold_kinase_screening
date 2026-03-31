@@ -16,7 +16,7 @@ To investigate the post-AlphaFold scripting and functionality, a sample dataset 
 
 ### Environment Set-Up
 
-#### 1. Clone this repository on the BYU HPC cluster and navigate to the directory.
+#### 1. Clone this repository on the BYU HPC cluster and navigate to the directory (can be done locally if using sample/pre-run AlphaFold data).
 ```
 git clone --recurse-submodules https://github.com/caysonjh/alphafold_kinase_screening.git
 ```
