@@ -32,7 +32,7 @@ if [ ! -d "FASTA_FILES" ]; then
 fi
 
 # Get the fasta files for each of the testing proteins
-python get_fasta_files_from_uniprot.py --kinase_file $input --init_protein_fasta $protein
+python ./SUBMISSION_SCRIPTS/get_fasta_files_from_uniprot.py --kinase_file $input --init_protein_fasta $protein
 
 # Load AlphaFold module
 module load alphafold3/3.0.1+

@@ -141,8 +141,8 @@ def combine_all_scores(final_dirs: Path) -> None:
 
 
 def process_out_dirs(project_root: Path, pae_cutoff: int, dist_cutoff: int, logger: ProgressLogger) -> Path:
-    out_dirs = project_root / "out_dirs"
-    final_dirs = project_root / "final_dirs"
+    out_dirs = project_root / "DOWNLOAD_DIRS"
+    final_dirs = project_root / "FINAL_DIRS"
     ipsae_script = project_root / "IPSAE" / "ipsae.py"
     final_dirs.mkdir(exist_ok=True)
 
@@ -296,7 +296,7 @@ def main() -> None:
                 "--input",
                 str(final_dirs / "all_scores.csv"),
                 "--output-dir",
-                str(final_dirs / "rankings"),
+                str(final_dirs / "RANKINGS"),
                 "--mapping-csv",
                 str(args.project_root / "kinases_notkl.csv"),
             ],

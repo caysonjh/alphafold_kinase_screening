@@ -3,3 +3,10 @@ fasta_files
 slurm
 json_files
 out_dirs
+pipeline_process.md
+move_sumfiles.sh
+move_paeplots.sh
+final_dirs
+pae_plots
+top_30
+.DS_Store
