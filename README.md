@@ -123,3 +123,19 @@ For more information on using ChimeraX, see these [tutorials](https://www.rbvi.u
 
 ---
 ---
+
+## All Script Descriptions
+
+### SUBMISSION_SCRIPTS
+- `run_jobs.sh` -- main AlphaFold jobs submission scripts, calls `get_fasta_files_from_uniprot.py` and submits AlphaFold3 slurm jobs. 
+- `get_fasta_files_from_uniprot.py` -- uses the Uniprot API to get fasta files for each of the test proteins. 
+- `prepare_download.sh` -- gets all the critical files from the raw AlphaFold3 output to create minimal folders for easier downloading to local machine
+
+### ANAYSIS_SCRIPTS
+- `extract_ilis_batch.py` -- modified from the [iLIS ipynb scripts](https://github.com/flyark/AFM-LIS) to calculate iLIS scores
+- `generate_pae.py` -- uses the raw output from AlphaFold3 to generate a pae plot to see interacting residue areas
+- `generate_paeplots.sh` -- navigates to each output directory and runs the `generate_pae.py` script there
+- `plot_all_scores_interactive.py` -- creates the interactive html for violin plot scores across metrics
+- `plot_all_scores_violin.py` -- creates a static .png with violin plots across metrics
+- `rank_score_ids.py` -- creates ranking based on composite scoring of the test proteins
+- `run_full_pipeline.py` -- runs each of the above scripts and formats the output
