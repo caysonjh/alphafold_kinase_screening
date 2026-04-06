@@ -4,7 +4,7 @@
 
 ### AlphaFold Permissions
 
-In order to access AlphaFold3 on the BYU HPC cluster, permission must be obtained from Google to get access to AlphaFold3's parameters. 
+In order to access AlphaFold3 on the BYU HPC cluster, permission must be obtained from Google to get access to AlphaFold3's parameters. For information on accessing the HPC, see [here](https://rc.byu.edu/wiki/?id=Logging+In).
 
 Instructions on how to get permission can be found on BYU's [AlphaFold3 Page](https://rc.byu.edu/wiki/?page=AlphaFold+3) under the "How to Join" section. It often takes a day or two to get permissions from Google. 
 
