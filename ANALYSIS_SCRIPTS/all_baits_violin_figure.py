@@ -1,12 +1,13 @@
 """
 Usage:
-    python kinase_violin_plot.py
+    python all_baits_violin_figure.py
 
 Each CSV must have columns: directory, ipTM, IPSAE, LIS, iLIS
 One violin per file, showing the distribution of per-kinase composite scores
 (row-wise mean of the four score columns, ignoring NAs).
 """
 
+from pathlib import Path
 import os
 import pandas as pd
 import plotly.express as px
@@ -14,7 +15,8 @@ import plotly.io as pio
 pio.renderers.default = "json"  # prevents auto browser open
 
 # change files and labels based on intended usage
-FILES = ["smo_all_scores.csv", "gli1_all_scores.csv", "gli2_all_scores.csv", "sufu_all_scores.csv"]
+sample_dir = Path(__file__).parent.parent / "SAMPLE_CSV_FILES"
+FILES = [sample_dir / f for f in ["smo_all_scores.csv", "gli1_all_scores.csv", "gli2_all_scores.csv", "sufu_all_scores.csv"]]
 
 LABELS = {
     "smo":  "SMO C-Term",
