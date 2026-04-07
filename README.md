@@ -116,6 +116,12 @@ There will be csv files that can be used for further, more specific analysis:
 
 ## Visualization
 
+### Figure 2
+Run the all_baits_violin_figure.py file to calculate top scores across bait proteins. The current files in the script are for SMO C-term, GLI1 N-term, GLI2, and SUFU.
+```
+python all_baits_violin_figure.py
+```
+
 #### If the steps up to this point were done on the supercomputer, you will need to download the files of interest using `scp` or `sftp`
 
 #### If the steps were done on your local machine with a sample dataset, that is not neccessary
