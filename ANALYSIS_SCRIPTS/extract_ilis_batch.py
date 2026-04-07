@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 from __future__ import annotations
 
 import argparse
@@ -200,8 +201,8 @@ def rebuild_all_scores(final_dirs: Path, output_file: Path) -> None:
 
 
 def run_batch(project_root: Path, pae_cutoff: float, distance_cutoff: float) -> tuple[int, int]:
-    out_dirs = project_root / "out_dirs"
-    final_dirs = project_root / "final_dirs"
+    out_dirs = project_root / "DOWNLOAD_DIRS"
+    final_dirs = project_root / "FINAL_DIRS"
     final_dirs.mkdir(exist_ok=True)
 
     processed = 0

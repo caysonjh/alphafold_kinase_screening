@@ -10,10 +10,6 @@ Instructions on how to get permission can be found on BYU's [AlphaFold3 Page](ht
 
 Once permissions have been granted from Google, you will forward their email to rcsupport@byu.edu. They will then give you permission to run `module load alphafold3/3.0.1+`. 
 
-### Sample Data
-
-To investigate the post-AlphaFold scripting and functionality, a sample dataset is located [here](https://byu.box.com/s/1llegwooxapbt2yr9b1mrary4phwfrxz). Download the entire linked folder into this cloned repository, it will be usable for the future analysis scripts.
-
 ### Environment Set-Up
 
 #### 1. Clone this repository on the BYU HPC cluster and navigate to the directory (can be done locally if using sample/pre-run AlphaFold data).
@@ -26,6 +22,11 @@ git clone --recurse-submodules https://github.com/caysonjh/alphafold_kinase_scre
 pip install -r requirements.txt
 ```
 
+### Sample Data
+
+To investigate the post-AlphaFold scripting and functionality, a sample dataset is located [here](https://byu.box.com/s/1llegwooxapbt2yr9b1mrary4phwfrxz). Download the entire linked folder into this cloned repository, it will be usable for the future analysis scripts. Ensure that the directory is named **OUTPUT_DIRS** as can be seen via the link. 
+
+
 ### Input File Formatting
 
 There are two essential files needed to run the screens:  
@@ -37,7 +38,7 @@ There are two essential files needed to run the screens:
 ---
 ---
 
-## Screening Phase
+## Screening Phase (Must Have AlphaFold Parameter Permissions)
 
 Ensure that you are on a **LOGIN** node on the BYU supercomputer, the jobs will be submitted automatically via slurm.  
 

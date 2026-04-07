@@ -238,8 +238,8 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    analysis_dir = args.project_root / "analysis"
-    final_dirs = args.project_root / "final_dirs"
+    analysis_dir = args.project_root / "ANALYSIS_SCRIPTS"
+    final_dirs = args.project_root / "FINAL_DIRS"
     logs_dir = final_dirs / "logs"
     default_log = logs_dir / f"pipeline_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
     logger = ProgressLogger(args.log_file if args.log_file else default_log)
